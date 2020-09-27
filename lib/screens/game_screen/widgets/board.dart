@@ -8,9 +8,12 @@ class Board extends StatelessWidget {
   final GameController gameController = Get.find<GameController>();
 
   List<BoardColumn> _buildBoard() {
+    int currentColumnNumber = 0;
+
     return gameController.board
         .map((boardColumn) => BoardColumn(
               columnOfPlayerChips: boardColumn,
+              columnNumber: currentColumnNumber++,
             ))
         .toList();
   }
@@ -44,7 +47,13 @@ class Board extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: _buildBoard(),
+                children: [
+                  GetBuilder<GameController>(
+                    builder: (GetxController gameController) => Row(
+                      children: _buildBoard(),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
